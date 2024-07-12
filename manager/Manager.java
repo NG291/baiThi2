@@ -12,8 +12,9 @@ import java.io.File;
 import java.util.Scanner;
 
 public class Manager {
-    private static final String NAME_FILE = "D:\baithithuchanh\manageFile\data.txt";
+    private static final String NAME_FILE = "manageFile\\data.csv";
     private List<Phone> phones;
+    private static int nextId = 1;
 
     public Manager() {
         this.phones = new ArrayList<>();
@@ -22,30 +23,41 @@ public class Manager {
     public static List<Phone> readFilePhone() {
         List<Phone> phones = new ArrayList<>();
         File file = new File(NAME_FILE);
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] data = line.split(",");
-                int id = Integer.parseInt(data[0]);
-                String name = data[1];
-                double price = Double.parseDouble(data[2]);
-                int quantity = Integer.parseInt(data[3]);
-                String producer = data[4];
+                int id = Integer.parseInt(data[0].trim());
+                String name = data[1].trim();
+                double price = Double.parseDouble(data[2].trim());
+                int quantity = Integer.parseInt(data[3].trim());
+                String producer = data[4].trim();
 
+                // Kiểm tra và tạo đối tượng Phone phù hợp (GenuinePhone hoặc ManualPhone)
+                if (data.length == 7) { // GenuinePhone
+                    String warrantyTime = data[5].trim();
+                    String warrantyScope = data[6].trim();
+                    phones.add(new GenuinePhone(id, name, price, quantity, producer, warrantyTime, warrantyScope));
+                } else if (data.length == 8) { // ManualPhone
+                    String nation = data[5].trim();
+                    String status = data[6].trim();
+                    phones.add(new ManualPhone(id, name, price, quantity, producer, nation,status));
+                }
             }
-            bufferedReader.close();
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
         return phones;
     }
 
-    public static void writeFileBorrower(List<Phone> phones) {
+
+    public static void writeFilePhone(List<Phone> phones) {
         try {
             File file = new File(NAME_FILE);
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
             for (Phone phone : phones) {
+                bufferedWriter.write(phone.getInfo());
+                bufferedWriter.newLine();
             }
             bufferedWriter.close();
         } catch (IOException e) {
@@ -54,13 +66,13 @@ public class Manager {
     }
 
     public void addPhone(Phone phone) {
+        phone.setId(nextId++);
         phones.add(phone);
+        writeFilePhone(phones);
     }
 
     public void addGenuinePhone(Scanner scanner) {
         try {
-            System.out.println("Enter phone code");
-            int idGenuinePhone = Integer.parseInt(scanner.next());
             System.out.println("Enter name phone");
             String nameGenuinePhone = scanner.nextLine();
             System.out.println("Enter price");
@@ -73,7 +85,7 @@ public class Manager {
             String WarrantyTime = scanner.nextLine();
             System.out.println("Enter warranty coverage");
             String WarrantyScope = scanner.nextLine();
-            GenuinePhone genuinePhone = new GenuinePhone(idGenuinePhone, nameGenuinePhone, priceGenuinePhone, quantityGenuinePhone, producerGenuinePhone, WarrantyTime, WarrantyScope);
+            GenuinePhone genuinePhone = new GenuinePhone(nextId, nameGenuinePhone, priceGenuinePhone, quantityGenuinePhone, producerGenuinePhone, WarrantyTime, WarrantyScope);
             addPhone(genuinePhone);
         } catch (Exception e) {
             e.getMessage();
@@ -82,8 +94,6 @@ public class Manager {
 
     public void addManualPhone(Scanner scanner) {
         try {
-            System.out.println("Enter phone code");
-            int idManualPhone = Integer.parseInt(scanner.next());
             System.out.println("Enter name phone");
             String nameManualPhone = scanner.nextLine();
             System.out.println("Enter price");
@@ -96,7 +106,7 @@ public class Manager {
             String nation = scanner.nextLine();
             System.out.println("Enter a status name");
             String status = scanner.nextLine();
-            ManualPhone manualPhone = new ManualPhone(idManualPhone, nameManualPhone, priceManualPhone, quantityManualPhone, producerManualPhone, nation, status);
+            ManualPhone manualPhone = new ManualPhone(nextId, nameManualPhone, priceManualPhone, quantityManualPhone, producerManualPhone, nation, status);
             addPhone(manualPhone);
         } catch (Exception e) {
             System.out.println(e.getMessage());

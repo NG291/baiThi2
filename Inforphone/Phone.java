@@ -57,14 +57,11 @@ public abstract class Phone {
         this.producer = producer;
     }
 
+    public abstract String getInfo();
+
+
     @Override
     public String toString() {
-        return "Inforphone.Phone{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", quantity=" + quantity +
-                ", producer='" + producer + '\'' +
-                '}';
+        return id + "," + name + "," + price + "," + quantity + "," + producer;
     }
 }

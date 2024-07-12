@@ -1,5 +1,3 @@
-package Inforphone;
-
 import manager.Manager;
 import  Menu.Menu;
 public class App {

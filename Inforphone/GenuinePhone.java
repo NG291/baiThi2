@@ -1,25 +1,27 @@
 package Inforphone;
 
 public class GenuinePhone extends Phone {
-    private  String WarrantyTime;
-    private String WarrantyScope;
+    private  String warrantyTime;
+    private String warrantyScope;
 
     public GenuinePhone(String warrantyTime, String warrantyScope) {
-        WarrantyTime = warrantyTime;
-        WarrantyScope = warrantyScope;
-    }
+        this.warrantyTime = warrantyTime;
+        this.warrantyScope = warrantyScope;
 
+    }
     public GenuinePhone(int id, String name, double price, int quantity, String producer, String warrantyTime, String warrantyScope) {
         super(id, name, price, quantity, producer);
-        WarrantyTime = warrantyTime;
-        WarrantyScope = warrantyScope;
+        this.warrantyTime = warrantyTime;
+        this.warrantyScope = warrantyScope;
+    }
+
+    @Override
+    public String getInfo() {
+        return toString() + "," + warrantyTime+ "," + warrantyScope;
     }
 
     @Override
     public String toString() {
-        return "GenuinePhone{" +
-                "WarrantyTime='" + WarrantyTime + '\'' +
-                ", WarrantyScope='" + WarrantyScope + '\'' +
-                '}';
+        return  super.toString() + "," + warrantyTime+ "," + warrantyScope;
     }
 }

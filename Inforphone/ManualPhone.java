@@ -32,10 +32,12 @@ public class ManualPhone extends Phone {
     }
 
     @Override
+    public String getInfo() {
+        return toString()+ ","+ country +","+status;
+    }
+
+    @Override
     public String toString() {
-        return "ManualPhone{" +
-                "country='" + country + '\'' +
-                ", status='" + status + '\'' +
-                '}';
+        return super.toString() + ","+ country +","+status;
     }
 }

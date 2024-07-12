@@ -79,7 +79,7 @@ public class Menu {
         try {
             System.out.print("Nhập ID điện thoại cần xóa: ");
             int id = Integer.parseInt(scanner.nextLine());
-            manager.removePhone(id);
+            manager.removeIdPhone(id);
         } catch (NumberFormatException e) {
             System.out.println("ID không hợp lệ. Vui lòng nhập số nguyên.");
         } catch (Exception e) {
