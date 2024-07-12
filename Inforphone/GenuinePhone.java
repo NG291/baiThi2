@@ -1,15 +1,15 @@
 package Inforphone;
 
 public class GenuinePhone extends Phone {
-    private  String warrantyTime;
+    private  int warrantyTime;
     private String warrantyScope;
 
-    public GenuinePhone(String warrantyTime, String warrantyScope) {
+    public GenuinePhone(int warrantyTime, String warrantyScope) {
         this.warrantyTime = warrantyTime;
         this.warrantyScope = warrantyScope;
 
     }
-    public GenuinePhone(int id, String name, double price, int quantity, String producer, String warrantyTime, String warrantyScope) {
+    public GenuinePhone(int id, String name, double price, int quantity, String producer, int warrantyTime, String warrantyScope) {
         super(id, name, price, quantity, producer);
         this.warrantyTime = warrantyTime;
         this.warrantyScope = warrantyScope;

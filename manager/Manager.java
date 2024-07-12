@@ -35,7 +35,7 @@ public class Manager {
                 String producer = data[4].trim();
 
                 if (data.length == 7) { // GenuinePhone
-                    String warrantyTime = data[5].trim();
+                    int warrantyTime = Integer.parseInt(data[5].trim());
                     String warrantyScope = data[6].trim();
                     phones.add(new GenuinePhone(id, name, price, quantity, producer, warrantyTime, warrantyScope));
                 } else if (data.length == 8) { // ManualPhone
@@ -77,15 +77,18 @@ public class Manager {
             String nameGenuinePhone = scanner.nextLine();
             System.out.println("Enter price");
             double priceGenuinePhone = Double.parseDouble(scanner.nextLine());
+            Validator.validatePrice(priceGenuinePhone);
             System.out.println("Enter the product quantity");
             int quantityGenuinePhone = Integer.parseInt(scanner.nextLine());
+            Validator.validateQuantity(quantityGenuinePhone);
             System.out.println("Enter the manufacturer's name");
             String producerGenuinePhone = scanner.nextLine();
             System.out.println("Enter the warranty period");
-            String WarrantyTime = scanner.nextLine();
+            int warrantyTime = Integer.parseInt(scanner.nextLine());
+            Validator.validateWarrantyPeriod(warrantyTime);
             System.out.println("Enter warranty coverage");
             String WarrantyScope = scanner.nextLine();
-            GenuinePhone genuinePhone = new GenuinePhone(nextId, nameGenuinePhone, priceGenuinePhone, quantityGenuinePhone, producerGenuinePhone, WarrantyTime, WarrantyScope);
+            GenuinePhone genuinePhone = new GenuinePhone(nextId, nameGenuinePhone, priceGenuinePhone, quantityGenuinePhone, producerGenuinePhone, warrantyTime, WarrantyScope);
             addPhone(genuinePhone);
         } catch (Exception e) {
             e.getMessage();
@@ -98,8 +101,10 @@ public class Manager {
             String nameManualPhone = scanner.nextLine();
             System.out.println("Enter price");
             double priceManualPhone = Double.parseDouble(scanner.nextLine());
+            Validator.validatePrice(priceManualPhone);
             System.out.println("Enter the product quantity");
             int quantityManualPhone = Integer.parseInt(scanner.nextLine());
+            Validator.validateQuantity(quantityManualPhone);
             System.out.println("Enter the manufacturer's name");
             String producerManualPhone = scanner.nextLine();
             System.out.println("Enter the country name");
@@ -141,7 +146,7 @@ public class Manager {
             System.out.println("Phone with ID " + phoneId + " not found.");
         }
 
-        writeFilePhone(phones); // Ghi lại danh sách điện thoại vào file
+        writeFilePhone(phones);
     }
 
 
