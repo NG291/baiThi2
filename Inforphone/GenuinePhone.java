@@ -17,7 +17,7 @@ public class GenuinePhone extends Phone {
 
     @Override
     public String getInfo() {
-        return toString() + "," + warrantyTime+ "," + warrantyScope;
+        return toString();
     }
 
     @Override

@@ -4,6 +4,6 @@ public class App {
     public static void main(String[] args) {
         Menu menu = new Menu();
         Manager manager = new Manager();
-        menu.display( manager);
+        menu.display(manager);
     }
 }

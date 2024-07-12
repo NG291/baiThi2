@@ -33,7 +33,7 @@ public class ManualPhone extends Phone {
 
     @Override
     public String getInfo() {
-        return toString()+ ","+ country +","+status;
+        return toString();
     }
 
     @Override

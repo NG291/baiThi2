@@ -2,6 +2,7 @@ package manager;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import Inforphone.GenuinePhone;
@@ -17,7 +18,7 @@ public class Manager {
     private static int nextId = 1;
 
     public Manager() {
-        this.phones = new ArrayList<>();
+        this.phones =  readFilePhone();
     }
 
     public static List<Phone> readFilePhone() {
@@ -33,7 +34,6 @@ public class Manager {
                 int quantity = Integer.parseInt(data[3].trim());
                 String producer = data[4].trim();
 
-                // Kiểm tra và tạo đối tượng Phone phù hợp (GenuinePhone hoặc ManualPhone)
                 if (data.length == 7) { // GenuinePhone
                     String warrantyTime = data[5].trim();
                     String warrantyScope = data[6].trim();
@@ -44,7 +44,7 @@ public class Manager {
                     phones.add(new ManualPhone(id, name, price, quantity, producer, nation,status));
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
         return phones;
@@ -113,29 +113,37 @@ public class Manager {
         }
     }
 
-    public void removeIdPhone( int phoneId) {
-        boolean isPhone= false;
-            for (Phone phone : phones) {
-                if (phone.getId()== phoneId) {
-                    Scanner scanner = new Scanner(System.in);
-                    System.out.print("Are you sure you want to delete this document? (yes/no): ");
-                    String confirmation = scanner.nextLine();
-                    if (confirmation.equalsIgnoreCase("yes")) {
-                        phones.remove(phone);
-                        isPhone= true;
-                        System.out.println("Document removed successfully.");
-                    }
-                    else {
-                        break;
-                    }
+    public void removeIdPhone(int phoneId) {
+        boolean found = false;
+        Iterator<Phone> iterator = phones.iterator();
+
+        while (iterator.hasNext()) {
+            Phone phone = iterator.next();
+
+            if (phone.getId() == phoneId) {
+                Scanner scanner = new Scanner(System.in);
+                System.out.print("Are you sure you want to delete this phone? (yes/no): ");
+                String confirmation = scanner.nextLine();
+
+                if (confirmation.equalsIgnoreCase("yes")) {
+                    iterator.remove();
+                    found = true;
+                    System.out.println("Phone removed successfully.");
+                    break;
                 } else {
-                    System.out.println("Document removal canceled.");
+                    System.out.println("Removal canceled.");
+                    return;
                 }
             }
-            if(!isPhone){
-                System.out.println("Xoa thất bại");
         }
+
+        if (!found) {
+            System.out.println("Phone with ID " + phoneId + " not found.");
+        }
+
+        writeFilePhone(phones); // Ghi lại danh sách điện thoại vào file
     }
+
 
     public Phone findPhoneById(int  phoneId) {
         for (Phone phone : phones) {
